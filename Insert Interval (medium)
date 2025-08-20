@@ -1,0 +1,41 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+/*class Interval {
+public:
+  int start = 0;
+  int end = 0;
+
+  Interval(int start, int end) {
+    this->start = start;
+    this->end = end;
+  }
+};*/
+
+class Solution {
+public:
+  vector<Interval> insert(const vector<Interval> &intervals, Interval newInterval) {
+    if(intervals.empty()) return vector<Interval>{newInterval};
+    vector<Interval> mergedIntervals;
+    int i = 0;
+    // skip and add to output all intervals that come before newInterval
+    while(i < intervals.size() && intervals[i].end < newInterval.start){
+      mergedIntervals.push_back(intervals[i++]);
+    }
+    //merge all intervals that overlap with new intervals
+    while(i < intervals.size() && intervals[i].start <= newInterval.end){
+      newInterval.start = min(newInterval.start, intervals[i].start);
+      newInterval.end = max(newInterval.end, intervals[i].end);
+      i++;
+    }
+    // Insert the new Interval
+    mergedIntervals.push_back(newInterval);
+    // add all the remaining intervals to the output
+    while(i < intervals.size()){
+      mergedIntervals.push_back(intervals[i++]);
+    }
+    return mergedIntervals;
+  }
+};
