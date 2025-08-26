@@ -1,0 +1,51 @@
+using namespace std;
+
+#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
+
+/*class Job {
+public:
+  int start = 0;
+  int end = 0;
+  int cpuLoad = 0;
+
+  Job(int start, int end, int cpuLoad) {
+    this->start = start;
+    this->end = end;
+    this->cpuLoad = cpuLoad;
+  }
+};*/
+
+class Solution {
+public:
+  struct endCompare {
+    bool operator()(const Job &x, const Job &y) { return x.end > y.end; }
+  };
+  int findMaxCPULoad(vector<Job> &jobs) {
+    int maxCPULoad = 0;
+    if(jobs.empty())  return 0;
+
+    
+    // sort the jobs by start time
+    sort(jobs.begin(), jobs.end(), [](const Job &a, const Job &b) { 
+        return a.start < b.start; });
+    int currentCpuLoad = 0;
+    priority_queue<Job, vector<Job>, endCompare> minHeap;
+
+    for(auto job : jobs){
+      while(!minHeap.empty() && job.start > minHeap.top().end){
+        currentCpuLoad -= minHeap.top().cpuLoad;
+        minHeap.pop();
+      }
+      minHeap.push(job);
+      currentCpuLoad += job.cpuLoad;
+
+      maxCPULoad = max(maxCPULoad, currentCpuLoad);
+    }
+                                          
+    // TODO: Write your code here
+    return maxCPULoad;
+  }
+};
