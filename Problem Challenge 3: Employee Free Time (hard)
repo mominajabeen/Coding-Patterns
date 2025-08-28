@@ -1,0 +1,60 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+/*class Interval {
+  public:
+    int start = 0;
+    int end = 0;
+
+    Interval(int start, int end) {
+      this->start = start;
+      this->end = end;
+    }
+  };*/
+
+class Solution {
+public:
+  struct startCompare {
+    bool operator()(const pair<Interval, pair<int, int>> &x,
+                    const pair<Interval, pair<int, int>> &y) {
+      return x.first.start > y.first.start;
+    }
+  };
+
+  vector<Interval> findEmployeeFreeTime(const vector<vector<Interval>> &schedule) {
+    vector<Interval> result;
+    if(schedule.empty())  return result;
+
+    priority_queue<pair<Interval, pair<int, int>>, 
+                      vector<pair<Interval, pair<int, int>>>, startCompare>  minHeap;
+    
+    for(int i = 0; i < schedule.size(); i++){
+      minHeap.push(make_pair(schedule[i][0], make_pair(i,0)));
+    }
+    Interval previousInterval = minHeap.top().first;
+    while(!minHeap.empty()){
+      auto queueTop = minHeap.top();
+      minHeap.pop();
+      if(previousInterval.end < queueTop.first.start){
+        result.push_back({previousInterval.end, queueTop.first.start});
+        previousInterval = queueTop.first;
+      }
+      else{
+        //overlapping intervals update the previous interval if needed
+        if(previousInterval.end < queueTop.first.end){
+          previousInterval = queueTop.first;
+        }
+      }
+      vector<Interval> employeesSchedule = schedule[queueTop.second.first];
+      if(employeesSchedule.size() > queueTop.second.second + 1){
+        minHeap.push(make_pair(employeesSchedule[queueTop.second.second + 1],
+        make_pair(queueTop.second.first, queueTop.second.second + 1)));
+      }
+    }
+  
+    return result;
+  }
+};
