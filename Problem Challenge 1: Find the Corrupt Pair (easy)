@@ -1,0 +1,31 @@
+using namespace std;
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Solution {
+private:
+  static void swap(vector<int>& arr, int i, int j){
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+public:
+  vector<int> findNumbers(vector<int> &nums) {
+    int i = 0;
+    while(i < nums.size()){
+      int j = nums[i] - 1;
+      if(nums[i] != nums[j]){
+        swap(nums, i, j);
+      }
+      else i++;
+    }
+    for(int i = 0; i < nums.size(); i++){
+      if(nums[i] != i + 1){
+        return vector<int>{nums[i], i + 1};
+      }
+    }
+    return vector<int>{-1, -1};
+  }
+};
