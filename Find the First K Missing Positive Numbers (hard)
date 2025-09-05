@@ -1,0 +1,43 @@
+using namespace std;
+
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+
+class Solution {
+private:
+  static void swap(vector<int>& arr, int i, int j){
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+public:
+  static vector<int> findNumbers(vector<int> &nums, int k) {
+    vector<int> missingNumbers; 
+    int i = 0; 
+    while(i < nums.size()){
+      int j = nums[i] - 1;
+      if(nums[i] > 0 && nums[i] <= nums.size() && nums[i] != nums[j]){
+        swap(nums, i, j);
+      }
+      else i++;
+    }
+    
+    unordered_set<int> extraNumbers;
+    for(i = 0; i < nums.size() && missingNumbers.size() < k; i++){
+      if(nums[i] != i + 1){
+        missingNumbers.push_back(i + 1);
+        extraNumbers.insert(nums[i]);
+      }
+    }
+    for(i = 1; missingNumbers.size() < k; i++){
+      int candidateNumber = i + nums.size();
+      if(extraNumbers.find(candidateNumber) == extraNumbers.end()){
+        missingNumbers.push_back(candidateNumber);
+      }
+    }
+    // TODO: Write your code here
+    return missingNumbers;
+  }
+
+};
