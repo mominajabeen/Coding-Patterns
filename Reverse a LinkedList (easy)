@@ -1,0 +1,31 @@
+using namespace std;
+
+#include <iostream>
+
+/*class ListNode {
+public:
+  int val = 0;
+  ListNode *next;
+
+  ListNode(int value) {
+    this->val = value;
+    next = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  ListNode *reverse(ListNode *head) {
+    ListNode *next = nullptr;
+    ListNode* curr = head;
+    ListNode* prev = nullptr;
+  
+    while(curr != nullptr){
+      next = curr->next;
+      curr->next = prev;
+      prev = curr;
+      curr = next;
+    }
+    return prev;
+  }
+};
