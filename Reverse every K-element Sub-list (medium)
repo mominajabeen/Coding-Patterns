@@ -1,0 +1,42 @@
+using namespace std;
+
+#include <iostream>
+
+/*class ListNode {
+public:
+  int val = 0;
+  ListNode *next;
+
+  ListNode(int value) {
+    this->val = value;
+    next = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  ListNode *reverse(ListNode *head, int k) {
+    if(k <= 0 or head == nullptr) return head;
+
+    ListNode *current = head, *previous = nullptr;
+    while(true){
+      ListNode*  lastNodeOfPreviousPart = previous;
+      ListNode* lastNodeOfSubList = current;
+      ListNode* next = nullptr;
+
+      for(int i = 0; current != nullptr && i < k; i++){
+        next = current->next;
+        current->next = previous;
+        previous = current;
+        current = next;
+      }
+      if(lastNodeOfPreviousPart != nullptr) lastNodeOfPreviousPart->next = previous;
+      else head = previous;
+      lastNodeOfSubList->next = current;
+      if(current == nullptr)  break;
+
+    previous = lastNodeOfSubList;
+    }
+    return head;
+  }
+};
