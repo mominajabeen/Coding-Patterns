@@ -1,0 +1,22 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+class Solution {
+
+public: 
+string reverseString(string s) {
+    stack<char> stk;
+    for(auto const& c : s){
+        stk.push(c);
+    }
+    string res = "";
+    while(!stk.empty()){
+        char ch = stk.top();
+        stk.pop();
+        res += ch;
+    }
+        return res;
+}
+};
