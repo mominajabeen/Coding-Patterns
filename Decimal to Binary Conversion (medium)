@@ -1,0 +1,22 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class Solution {
+public:
+string decimalToBinary(int num) {
+    int n = num;
+    stack<int> stk;
+    while(n > 0){
+        stk.push(n % 2);
+        n /= 2;
+    }
+    string s = "";
+    while(!stk.empty()){
+        s += to_string(stk.top());
+        stk.pop();
+    }
+
+        return s;
+}
+};
