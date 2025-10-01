@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+static stack<int> sortStack(stack<int> &input) {
+    stack<int> tmpStack;
+    while(!input.empty()){
+        int num = input.top();
+        input.pop();
+        while(!tmpStack.empty() && tmpStack.top() > num){
+            input.push(tmpStack.top());
+            tmpStack.pop();
+        }
+        tmpStack.push(num);
+    }
+    return tmpStack;
+}
+};
