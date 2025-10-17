@@ -1,0 +1,32 @@
+#include <stack>
+#include <iostream>
+
+/*struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};*/
+
+class Solution {
+public:
+    ListNode* removeNodes(ListNode* head) {
+        stack<ListNode*> stack;
+        ListNode* curr = head;
+        while(curr){
+            while(!stack.empty() && stack.top()->val < curr->val){
+                stack.pop();
+            }
+            if(!stack.empty()){
+                stack.top()->next = curr;
+            }
+            stack.push(curr);
+            curr = curr->next;
+        }
+        curr = nullptr;
+        while(!stack.empty()){
+            curr = stack.top();
+            stack.pop();
+        }
+        return curr;
+    }
+};
