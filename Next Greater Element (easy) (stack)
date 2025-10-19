@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> ans;
+        unordered_map<int, int> nextGreater;
+        stack<int> stack;
+
+        for(auto const& num : nums2){
+            while(!stack.empty() && stack.top() < num){
+                nextGreater[stack.top()] = num;
+                stack.pop();
+            }
+            stack.push(num);
+        }
+        for(auto const& num : nums1){
+            ans.push_back(nextGreater.count(num) ? nextGreater[num] : -1);
+        }
+
+        return ans;
+    }
+};
