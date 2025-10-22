@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <deque>
+
+class Solution {
+public:
+    int sumSubarrayMins(std::vector<int>& arr) {
+        int result = 0;
+        int MOD = 1e7;
+        int n = arr.size();
+        stack<int> stack;
+
+        for(int currentIdx = 0; currentIdx <= n; currentIdx++){
+            int currentElement = (currentIdx == n) ? 0 : arr[currentIdx];
+
+            while(!stack.empty() && arr[stack.top()] > currentElement){
+                int minIdx = stack.top();   stack.pop();
+                int prev = stack.empty() ? - 1 : stack.top();
+                int countSubarray = (minIdx - prev) * (currentIdx - minIdx);
+                result = (result + (long)arr[minIdx] * countSubarray % MOD) % MOD;
+            }
+            stack.push(currentIdx);
+        } 
+        return (int) result % MOD;
+    }
+};
