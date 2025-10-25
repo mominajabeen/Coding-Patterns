@@ -1,0 +1,27 @@
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <limits.h>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxNumberOfBalloons(string text) {
+        int minCount = INT_MAX;
+        unordered_map<char, int> freq;
+        for(auto c : text){
+            freq[c]++;
+        }
+        unordered_map<char, int> ballonFreq;
+        string s = "balloon";
+        for(auto c : s){
+            ballonFreq[c]++;
+        }
+        for(auto pair : ballonFreq){
+            int i = freq[pair.first] / pair.second;
+            minCount = min(minCount, i);
+        }
+        return minCount;
+    }
+};
