@@ -1,0 +1,29 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int longestPalindrome(string s) {        
+        int length = 0;
+        unordered_map<char, int> freq;
+        for(auto const& c : s){
+            freq[c]++;
+        }
+        bool flag = false;
+        for(auto pair : freq){
+            if(pair.second > 1){
+                if(pair.second % 2 == 0)
+                    length += pair.second;
+                else{
+                    length += (pair.second - 1);
+                    flag = true;
+                }
+            }
+            else    flag = true;
+        }
+        // ToDo: Write Your Code Here.
+        return (flag == true) ? length + 1 : length;
+    }
+};
+
