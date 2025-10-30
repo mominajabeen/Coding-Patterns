@@ -1,0 +1,23 @@
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char, int> magFreq;
+        for(int i = 0; i < magazine.size(); i++){
+            magFreq[magazine[i]]++;
+        }
+        for(int i = 0; i < ransomNote.size(); i++){
+            if(magFreq.find(ransomNote[i]) == magFreq.end()){
+                return false;
+            }
+            magFreq[ransomNote[i]]--;
+            if(magFreq[ransomNote[i]] < 0)  return false;
+        }
+        return true;
+    }
+};
+
