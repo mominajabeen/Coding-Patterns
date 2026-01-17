@@ -1,0 +1,43 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+/*class TreeNode {
+public:
+  int val = 0;
+  TreeNode *left;
+  TreeNode *right;
+
+  TreeNode(int x) {
+    val = x;
+    left = right = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  vector<vector<int>> findPaths(TreeNode *root, int sum) {
+    vector<vector<int>> allPaths;
+    vector<int> currentPath;
+    findPathsRecursive(root, sum, allPaths, currentPath);
+    // TODO: Write your code here
+    return allPaths;
+  }
+private:
+  void findPathsRecursive(TreeNode* currentNode, int sum,
+  vector<vector<int>> &allPaths, vector<int> &currentPath){
+    if(!currentNode) return;
+
+    currentPath.push_back(currentNode->val);
+
+    if(currentNode->val == sum && !currentNode->left && !currentNode->right){
+      allPaths.push_back(currentPath);
+    }
+    else{
+      findPathsRecursive(currentNode->left, sum - currentNode->val, allPaths, currentPath);
+      findPathsRecursive(currentNode->right, sum - currentNode->val, allPaths, currentPath);
+    }
+    currentPath.pop_back();
+  }
+};
