@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/*class TreeNode {
+public:
+  int val;
+  TreeNode *left;
+  TreeNode *right;
+
+  TreeNode(int x) {
+    val = x;
+    left = right = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  bool findPath(TreeNode *root, const vector<int> &sequence) {
+    if(!root) return sequence.empty();
+    return findPathRecursive(root, sequence, 0);
+  }
+private:
+  bool findPathRecursive(TreeNode* currentNode, const vector<int> &sequence, int sequenceIndex){
+    if(!currentNode) return false;
+
+    if(sequenceIndex >= sequence.size() or currentNode->val != sequence[sequenceIndex])
+      return false;
+
+    if(!currentNode->left && !currentNode->right && currentNode->val == sequence[sequenceIndex])
+      return true;
+    return (findPathRecursive(currentNode->left, sequence, sequenceIndex + 1) or findPathRecursive(currentNode->right, sequence, sequenceIndex + 1));
+
+  }
+};
