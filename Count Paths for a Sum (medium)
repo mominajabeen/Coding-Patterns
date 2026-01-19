@@ -1,0 +1,48 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+/*class TreeNode {
+public:
+  int val = 0;
+  TreeNode *left;
+  TreeNode *right;
+
+  TreeNode(int x) {
+    val = x;
+    left = right = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  int countPaths(TreeNode *root, int S) {
+    vector<int> currentPath;
+
+    return countPathsRecursive(root, S, currentPath);
+  }
+private:
+  int countPathsRecursive(TreeNode* currentNode, int S, vector<int> &currentPath){
+    if(!currentNode)  return 0;
+
+    currentPath.push_back(currentNode->val);
+    int pathCount = 0;
+    double pathSum = 0;
+   
+    for(vector<int>::reverse_iterator itr = currentPath.rbegin(); itr != currentPath.rend(); ++itr){
+      pathSum += *itr;
+      if(pathSum == S)
+        pathCount++;
+    }
+    pathCount += countPathsRecursive(currentNode->left, S, currentPath);
+
+    pathCount += countPathsRecursive(currentNode->right, S, currentPath);
+
+    currentPath.pop_back();
+
+    return pathCount;
+
+
+  }
+};
