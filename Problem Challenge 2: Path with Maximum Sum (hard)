@@ -1,0 +1,41 @@
+#include <iostream>
+#include <limits>
+
+using namespace std;
+
+/*class TreeNode {
+public:
+  int val;
+  TreeNode *left;
+  TreeNode *right;
+
+  TreeNode(int x) {
+    val = x;
+    left = right = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  int findMaximumPathSum(TreeNode *root) {
+    int globalMaximumSum = numeric_limits<int>::min();
+    findMaximumPathSumRecursive(root, globalMaximumSum);
+    return globalMaximumSum;
+  }
+private:
+  int findMaximumPathSumRecursive(TreeNode* currentNode, int &globalMaximumSum){
+    if(!currentNode) return 0;
+
+    int maxPathSumLeft = findMaximumPathSumRecursive(currentNode->left, globalMaximumSum);
+    int maxPathSumRight = findMaximumPathSumRecursive(currentNode->right, globalMaximumSum);
+
+    maxPathSumLeft = max(maxPathSumLeft, 0);
+    maxPathSumRight = max(maxPathSumRight, 0);
+
+    int localMaxSum = maxPathSumLeft + maxPathSumRight + currentNode->val;
+
+    globalMaximumSum = max(globalMaximumSum, localMaxSum);
+
+    return max(maxPathSumLeft, maxPathSumRight) + currentNode->val;
+  }
+};
