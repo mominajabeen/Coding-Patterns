@@ -1,0 +1,41 @@
+using namespace std;
+
+#include <iostream>
+
+/*class TreeNode {
+public:
+  int val = 0;
+  TreeNode *left;
+  TreeNode *right;
+
+  TreeNode(int x) {
+    val = x;
+    left = right = nullptr;
+  }
+};*/
+
+class Solution {
+public:
+  int findSumOfPathNumbers(TreeNode *root) {
+    if(!root)
+      return 0;
+    int totalSum = 0;
+    findSumOfPathNumbersRecursive(root, totalSum, 0);
+    return totalSum;
+  }
+
+private:
+  void findSumOfPathNumbersRecursive(TreeNode* currentNode, int &totalSum, int currentSum){
+    if(!currentNode)  return;
+
+    currentSum = currentSum * 10 + currentNode->val;
+
+    if(!currentNode->left && !currentNode->right){
+      totalSum += currentSum;
+      return;
+    }
+    findSumOfPathNumbersRecursive(currentNode->left, totalSum, currentSum);
+    findSumOfPathNumbersRecursive(currentNode->right, totalSum, currentSum);
+  }
+  
+};
