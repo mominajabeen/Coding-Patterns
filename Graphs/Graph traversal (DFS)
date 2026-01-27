@@ -1,0 +1,6 @@
+Graphs are made up of nodes (vertices) connected by edges. Traversing a graph means visiting all its nodes in a structured way. This helps solve problems like finding paths, detecting cycles, and searching for specific values.
+
+Two widely used traversal techniques are:
+
+Depth-First Search (DFS): Explores as far as possible along each branch before backtracking.
+Breadth-First Search (BFS): Explores all neighbors of a node before moving deeper.
