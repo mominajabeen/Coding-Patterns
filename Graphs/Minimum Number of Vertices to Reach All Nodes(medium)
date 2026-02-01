@@ -1,0 +1,20 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+class Solution {
+public:
+    std::vector<int> findSmallestSetOfVertices(int n, std::vector<std::vector<int>>& edges) {
+        std::vector<int> result;
+        unordered_set<int> nodeWithIncoming;
+        for(auto &edge : edges){
+            nodeWithIncoming.insert(edge[1]);
+        }
+        for(int i = 0; i < n; i++){
+            if(nodeWithIncoming.find(i) == nodeWithIncoming.end()){
+                result.push_back(i);
+            }
+        }
+        return result;
+    }
+};
