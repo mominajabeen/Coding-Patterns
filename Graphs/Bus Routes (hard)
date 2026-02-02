@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    // Method to find the minimum number of buses required to travel from source to target
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if(source == target)    return 0;
+        unordered_map<int, vector<int>> stopToBuses;
+        for(int i = 0; i < routes.size(); i++){
+            for(int stop : routes[i]){
+                stopToBuses[stop].push_back(i);
+            }
+        }
+        queue<pair<int, int>> q;
+        unordered_set<int> visitedStops;
+        unordered_set<int> usedBuses;
+
+        q.push({source, 0});
+        visitedStops.insert(source);
+
+        while(!q.empty()){
+            auto current = q.front();
+            q.pop();
+            int stop = current.first;
+            int buses = current.second;
+
+            for(int bus : stopToBuses[stop]){
+                if(usedBuses.count(bus))
+                    continue;
+                usedBuses.insert(bus);
+
+                for(int nextStop : routes[bus]){
+                    if(nextStop == target)
+                        return buses + 1;
+                    
+                    if(!visitedStops.count(nextStop)){
+                        visitedStops.insert(nextStop);
+                        q.push({nextStop, buses + 1});
+                    }
+                }
+            }
+        }
+        return -1; // If target is not reachable, return -1
+    }
+};
