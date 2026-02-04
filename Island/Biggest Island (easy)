@@ -1,0 +1,43 @@
+
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class Solution
+{
+public:
+  int maxAreaOfIsland(vector<vector<int>> &matrix)
+  {
+    int biggestIslandArea = 0;
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+        if(matrix[i][j] == 1){
+          biggestIslandArea = max(biggestIslandArea, islandAreaDFS(matrix, i, j));
+        }
+      }
+    }
+    return biggestIslandArea;
+  }
+private:
+  int islandAreaDFS(vector<vector<int>> &matrix, int x, int y){
+    if(x < 0 or x >= matrix.size() or y < 0 or y >= matrix[0].size()){
+      return 0;
+    }
+    if(matrix[x][y] == 0)
+      return 0;
+    matrix[x][y] = 0;
+
+    int area = 1;
+
+    area += islandAreaDFS(matrix, x + 1, y);
+    area += islandAreaDFS(matrix, x - 1, y);
+    area += islandAreaDFS(matrix, x, y + 1);
+    area += islandAreaDFS(matrix, x, y - 1);
+
+    return area;
+  }
+};
