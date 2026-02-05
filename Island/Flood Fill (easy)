@@ -1,0 +1,30 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class Solution
+{
+public:
+    vector<vector<int>> &floodFill(vector<vector<int>> &matrix, int x, int y, int newColor)
+    {
+      if(matrix[x][y] != newColor){
+        fillColorDFS(matrix, x, y, matrix[x][y], newColor);
+      }
+      return matrix;
+    }
+private:
+    void fillColorDFS(vector<vector<int>> &matrix, int x, int y, int oldColor, int newColor){
+      if(x < 0 or x >= matrix.size() or y < 0 or y >= matrix[0].size())
+        return;
+      if(matrix[x][y] != oldColor)
+        return;
+      
+      matrix[x][y] = newColor;
+
+      fillColorDFS(matrix, x + 1, y, oldColor, newColor);
+      fillColorDFS(matrix, x - 1, y, oldColor, newColor);
+      fillColorDFS(matrix, x, y + 1, oldColor, newColor);
+      fillColorDFS(matrix, x, y - 1, oldColor,  newColor);
+    }
+};
