@@ -1,0 +1,29 @@
+class Solution:
+  def countClosedIslands(self, matrix):
+    countClosedIslands = 0
+    rows = len(matrix)
+    cols = len(matrix[0])
+    visited = [[False for i in range(cols)] for j in range(rows)]
+    for i in range(rows):
+      for j in range(cols):
+        if(matrix[i][j] == 1 and not visited[i][j]):
+          if self.is_land_dfs(matrix, visited, i, j): 
+            countClosedIslands += 1
+
+    return countClosedIslands
+  def is_land_dfs(self, matrix, visited, x, y):
+    if(x < 0 or x >= len(matrix) or y < 0 or y >= len(matrix[0])):
+      return False;
+    if(matrix[x][y] == 0 or visited[x][y]):
+      return True;
+    
+    visited[x][y] = True
+
+    isClosed = True
+
+    isClosed &= self.is_land_dfs(matrix, visited, x + 1, y)
+    isClosed &= self.is_land_dfs(matrix, visited, x - 1, y)
+    isClosed &= self.is_land_dfs(matrix, visited, x, y + 1)
+    isClosed &= self.is_land_dfs(matrix, visited, x, y - 1)
+
+    return isClosed
