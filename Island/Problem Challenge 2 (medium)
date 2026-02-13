@@ -1,0 +1,31 @@
+class Solution:
+  def findDistinctIslandsDFS(self, matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    isLandSet = set()
+    visited = [[False for i in range(cols)]for j in range(rows)]
+
+    for i in range(rows):
+      for j in range(cols):
+        if(matrix[i][j] == 1 and not visited[i][j]):
+          traversal = self.traversal_dfs(matrix, visited, i, j, 'O')
+          isLandSet.add(traversal)
+    
+    return len(isLandSet)
+
+  def traversal_dfs(self, matrix, visited, x, y, direction):
+    if(x < 0 or x >= len(matrix) or y < 0 or y >= len(matrix[0])):
+      return ""
+    
+    if(matrix[x][y] == 0 or visited[x][y]):
+      return ""
+    isLandSet = direction
+    visited[x][y] = True
+
+    isLandSet += self.traversal_dfs(matrix, visited, x + 1, y, 'R')
+    isLandSet += self.traversal_dfs(matrix, visited, x - 1, y, 'L')
+    isLandSet += self.traversal_dfs(matrix, visited, x, y + 1, 'U')
+    isLandSet += self.traversal_dfs(matrix, visited, x - 1, y, 'D')
+
+    isLandSet += 'B'
+    return isLandSet 
