@@ -1,0 +1,45 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+  
+  struct capitalComp{
+    bool operator()(const pair<int, int> &x, const pair<int, int> &y){
+      return x.first > y.first;
+    }
+  };
+  struct profitComp{
+    bool operator()(const pair<int, int> &x, const pair<int, int> &y){
+      return y.first > x.first;
+    }
+  };
+  static int findMaximumCapital(const vector<int> &capital, const vector<int> &profits,
+                                int numberOfProjects, int initialCapital) {
+    int n = profits.size();
+    priority_queue<pair<int, int>, vector<pair<int, int>>, capitalComp> minCapitalHeap;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, profitComp> maxProfitHeap;
+
+    // insert all capitals to minHeap
+    for(int i = 0; i < n; i++){
+      minCapitalHeap.push(make_pair(capital[i], i));
+    }
+    int availableCapital = initialCapital;
+    for(int i = 0; i < numberOfProjects; i++){
+      while(!minCapitalHeap.empty() && minCapitalHeap.top().first <= availableCapital){
+        auto capitalIndex = minCapitalHeap.top().second;
+        minCapitalHeap.pop();
+        maxProfitHeap.push(make_pair(profits[capitalIndex], capitalIndex));
+      }
+
+      if(maxProfitHeap.empty())
+        break;
+      availableCapital += maxProfitHeap.top().first;
+      maxProfitHeap.pop();
+    }
+      return availableCapital;
+  }
+};
