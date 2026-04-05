@@ -1,0 +1,22 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class Solution {
+public:
+  vector<vector<int>> findSubsets(const vector<int>& nums) {
+    vector<vector<int>> subsets;
+    subsets.push_back(vector<int>());
+
+    for(int currentNum : nums){
+      int n = subsets.size();
+      for(int i = 0; i < n; i++){
+        vector<int> set(subsets[i]);
+        set.push_back(currentNum);
+        subsets.push_back(set);
+      }
+    }
+    return subsets;
+  }
+};    
