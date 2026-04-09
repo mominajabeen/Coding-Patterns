@@ -1,0 +1,40 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <string>
+#include <vector>
+class paranthesisString{
+public:
+  string str;
+  int openCount = 0;
+  int closeCount = 0;
+
+  paranthesisString(const string &s, int openCount, int closeCount){
+    this->str = s;
+    this->openCount = openCount;
+    this->closeCount = closeCount;
+  }
+};
+class Solution {
+public:
+  vector<string> generateValidParentheses(int num) {
+    vector<string> result;
+    queue<paranthesisString> queue;
+    queue.push({"", 0, 0});
+    while(!queue.empty()){
+      paranthesisString ps = queue.front();
+      queue.pop();
+      if(ps.openCount == num && ps.closeCount == num)
+        result.push_back(ps.str);
+      else{
+        if(ps.openCount < num){
+          queue.push({ps.str + "(", ps.openCount + 1, ps.closeCount});
+        }
+        if(ps.openCount > ps.closeCount)
+          queue.push({ps.str + ")", ps.openCount, ps.closeCount + 1});
+      }
+    }
+    return result;
+  }
+};
