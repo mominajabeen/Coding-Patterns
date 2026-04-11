@@ -1,0 +1,51 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <string>
+#include <vector>
+
+/*class AbbreviatedWord {
+public:
+  string str;
+  int start = 0;
+  int count = 0;
+
+  AbbreviatedWord(string str, int start, int count) {
+    this->str = str;
+    this->start = start;
+    this->count = count;
+  }
+};*/
+
+class Solution {
+public:
+  vector<string> generateGeneralizedAbbreviation(const string &word) {
+    vector<string> result;
+    int wordLen = word.size();
+    queue<AbbreviatedWord> queue;
+    queue.push({"", 0, 0});
+    while(!queue.empty()){
+      AbbreviatedWord abWord = queue.front();
+      queue.pop();
+      if(abWord.start == wordLen){
+        if(abWord.count != 0){
+          abWord.str += to_string(abWord.count);
+        }
+        result.push_back(abWord.str);
+      }
+      else{
+        // continue abberivating by incrementing the current abberivation count
+        queue.push({abWord.str, abWord.start + 1, abWord.count + 1});
+    //restart abberivating, increment the count and the current character to the string
+        if(abWord.count != 0){
+          abWord.str += to_string(abWord.count);
+        }
+        abWord.str += word[abWord.start];
+        queue.push({abWord.str, abWord.start + 1, 0});
+
+      }
+    }
+    return result;
+  }
+};
