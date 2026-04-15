@@ -1,0 +1,19 @@
+using namespace std;
+#include <iostream>
+
+class Solution {
+public:
+  int countTrees(int n) {
+    if(n <= 1)
+      return 1;
+    int count = 0;
+
+    for(int i = 1; i <= n; i++){
+      int countLeftSubTrees = countTrees(i - 1);
+      int countRightSubTrees = countTrees(n - i);
+      count += (countLeftSubTrees * countRightSubTrees);
+    }
+    
+    return count;
+  }
+};
