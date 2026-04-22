@@ -1,0 +1,25 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class Solution {
+public:
+  static int searchCeilingOfANumber(const vector<int>& arr, int key) {
+    
+    int start = 0, end = arr.size() - 1;
+
+    int index = (arr[end] >= key) ? end : -1;
+    
+    while(end >= start){
+      int mid = start + (end - start) / 2;
+      if(arr[mid] >= key){
+        index = mid; 
+        end = mid - 1;
+      }
+      else  start = mid + 1;
+    
+    }
+    return index;
+  }
+};
