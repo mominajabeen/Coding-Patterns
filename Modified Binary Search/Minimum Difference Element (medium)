@@ -1,0 +1,24 @@
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class Solution {
+public:
+  static int searchMinDiffElement(const vector<int>& arr, int key) {
+    if(key < arr[0])
+      return arr[0];
+    if(key > arr[arr.size() - 1])
+      return arr[arr.size() - 1];
+    int start = 0, end = arr.size() - 1;
+    while(start <= end){
+      int mid = start + (end - start) / 2;
+      if(key < arr[mid])
+        end = mid - 1;
+      else if(key > arr[mid])
+        start = mid + 1;
+      else  return arr[mid];
+      }
+    return (abs(arr[start] - key) < abs(arr[end] - key)) ? arr[start] : arr[end];
+  }
+};
