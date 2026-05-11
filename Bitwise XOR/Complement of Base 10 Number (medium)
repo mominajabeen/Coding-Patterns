@@ -1,0 +1,19 @@
+using namespace std;
+
+#include <iostream>
+#include <math.h>
+
+class Solution {
+public:
+  int bitwiseComplement(int num) {
+    int n = num;
+    int bitCount = 0;
+    while(n > 0){
+      bitCount++;
+      n = n >> 1;
+    }
+    int all_bits_set = pow(2, bitCount) - 1;
+
+    return num ^ all_bits_set;
+  }
+};
