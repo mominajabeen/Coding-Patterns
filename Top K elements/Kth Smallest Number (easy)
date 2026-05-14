@@ -1,0 +1,24 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+  int findKthSmallestNumber(const vector<int> &nums, int k) {
+    priority_queue<int> maxHeap;
+
+    // put first k numbers in the maxHeap
+    for(int i = 0; i < k; i++){
+      maxHeap.push(nums[i]);
+    }
+    for(int i = k; i < nums.size(); i++){
+      if(nums[i] < maxHeap.top()){
+        maxHeap.pop();
+        maxHeap.push(nums[i]);
+      }
+    }
+    return maxHeap.top();
+  }
+};
