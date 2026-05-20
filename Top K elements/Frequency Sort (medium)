@@ -1,0 +1,36 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <string>
+#include <unordered_map>
+
+class Solution {
+  struct valueComparator{
+    bool operator()(const pair<char, int> &x, const pair<char, int> &y){
+      return x.second < y.second;
+    }
+  };
+public:
+  string sortCharacterByFrequency(const string &str) {
+    unordered_map<char, int> frequencyMap;
+
+    for(char s : str){
+      frequencyMap[s]++;
+    }
+
+    priority_queue<pair<char, int>, vector<pair<char, int>>, valueComparator> maxHeap;
+    for(auto f : frequencyMap){
+      maxHeap.push(f);
+    }
+    string res = "";
+    while(!maxHeap.empty()){
+      auto entry = maxHeap.top();
+      maxHeap.pop();
+      for(int i = 0; i < entry.second; i++){
+        res += entry.first;
+      }
+    }
+    return res;
+  }
+};
