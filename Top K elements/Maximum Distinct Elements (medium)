@@ -1,0 +1,42 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <unordered_map>
+#include <vector>
+
+class Solution {
+public:
+struct vauleCompare{
+  bool operator()(const pair<int, int> &x, const pair<int, int> &y){
+    return x.second > y.second;
+  }
+};
+  int findMaximumDistinctElements(const vector<int> &nums, int k) {
+    unordered_map<int, int> freqMap;
+    for(int n : nums){
+      freqMap[n]++;
+    }
+
+    int distinctElementsCount = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, vauleCompare> minHeap;
+
+    for(auto &entry : freqMap){
+      if(entry.second == 1)
+        distinctElementsCount++;
+      else{
+        minHeap.push(entry);
+      }
+    }
+    while(k > 0 && !minHeap.empty()){
+      auto entry = minHeap.top();
+      minHeap.pop();
+      k -= entry.second - 1;
+      if(k >= 0)
+        distinctElementsCount++;
+    }
+    if(k > 0)
+      distinctElementsCount -= k;
+    return distinctElementsCount;
+  }
+};
