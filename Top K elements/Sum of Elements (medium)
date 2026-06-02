@@ -1,0 +1,32 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+
+struct numCompare{
+  bool operator()(const int &x, const int &y){
+    return x > y;
+  }
+};
+
+  int findSumOfElements(const vector<int> &nums, int k1, int k2) {
+    int elementSum = 0;
+    priority_queue<int, vector<int>, numCompare> minHeap;
+    for(int i = 0; i < nums.size(); i++){
+      minHeap.push(nums[i]);
+    }
+    for(int i = 0; i < k1; i++){
+      minHeap.pop();
+    }
+    for(int i = 0; i < k2 - k1 - 1; i++){
+      elementSum += minHeap.top();
+      minHeap.pop();
+    }
+    // TODO: Write your code here
+    return elementSum;
+  }
+};
