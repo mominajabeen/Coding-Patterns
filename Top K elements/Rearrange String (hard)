@@ -1,0 +1,43 @@
+using namespace std;
+
+#include <iostream>
+#include <string>
+
+class Solution {
+public:
+struct frequencySort{
+  bool operator()(const pair<char, int> &x, const pair<char, int> &y){
+    return x.second < y.second;
+  }
+};
+
+  string rearrangeString(const string &str) {
+  unordered_map<char, int> freqMap;
+  for(char ch : str){
+    freqMap[ch]++;
+  }
+  priority_queue<pair<char, int>, vector<pair<char, int>>, frequencySort> maxHeap;
+
+  for(auto entry : freqMap){
+    maxHeap.push(entry);
+  }
+
+  pair<char, int> previousEntry(-1, -1);
+  string resString = "";
+
+  while(!maxHeap.empty()){
+    pair<char, int> currentEntry = maxHeap.top();
+    maxHeap.pop();
+
+    if(previousEntry.second > 0)
+      maxHeap.push(previousEntry);
+
+    resString += currentEntry.first;
+    currentEntry.second--;
+    previousEntry = currentEntry;
+  
+  }
+
+    return resString;
+  }
+};
