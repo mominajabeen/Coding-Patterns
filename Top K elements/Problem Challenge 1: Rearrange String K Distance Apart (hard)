@@ -1,0 +1,44 @@
+using namespace std;
+
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+class Solution {
+public:
+struct valueCompare{
+  bool operator()(const pair<char, int> &x, const pair<char, int> &y){
+    return x.second < y.second;
+  }
+};
+  string reorganizeString(const string &str, int k) {
+    if(k <= 1)  return str;
+
+    unordered_map<char, int> freqMap;
+    for(char ch : str){
+      freqMap[ch]++;
+    }
+
+    priority_queue<pair<char, int>, vector<pair<char, int>>, valueCompare> maxHeap;
+    for(auto entry : freqMap){
+      maxHeap.push(entry);
+    }
+    string resStr = "";
+    queue<pair<char, int>> queue;
+    while(!maxHeap.empty()){
+      auto currentEntry = maxHeap.top();
+      maxHeap.pop();
+      resStr += currentEntry.first;
+      currentEntry.second--;
+      queue.push(currentEntry);
+
+      if(queue.size() == k){
+        auto entry = queue.front();
+        queue.pop();
+        if(entry.second > 0)
+          maxHeap.push(entry);
+      }
+    }
+    return resStr.length() == str.length() ? resStr : "";
+  }
+};
