@@ -1,0 +1,48 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <unordered_map>
+#include <vector>
+
+class Solution {
+public:
+struct valueCompare{
+  bool operator()(const pair<char, int> &x, const pair<char, int> &y){
+    return x.second < y.second;
+  }
+};
+
+  int scheduleTasks(vector<char> &tasks, int k) {
+    unordered_map<char, int> freqMap;
+    for(auto t : tasks){
+      freqMap[t]++;
+    }
+
+    priority_queue<pair<char, int>, vector<pair<char, int>>, valueCompare> maxHeap;
+    for(auto entry : freqMap){
+      maxHeap.push(entry);
+    }
+    int intervalCount = 0;
+    while(!maxHeap.empty()){
+      vector<pair<char, int>> waitList;
+      int n = k + 1;
+      for(; n > 0 && !maxHeap.empty(); n--){
+        intervalCount++;
+        auto currentEntry = maxHeap.top();
+        maxHeap.pop();
+        if(currentEntry.second > 1){
+          currentEntry.second--;
+          waitList.push_back(currentEntry);
+        }
+      }
+      for(auto it = waitList.begin(); it != waitList.end(); it++){
+        maxHeap.push(*it);
+      }
+      if(!maxHeap.empty()){
+        intervalCount += n;
+      }
+    }
+    return intervalCount;
+  }
+};
