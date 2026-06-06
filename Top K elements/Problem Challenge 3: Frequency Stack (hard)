@@ -1,0 +1,50 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <string>
+class Element{
+public:
+  int number = 0;
+  int frequency = 0;
+  int sequenceNumber = 0;
+
+  Element(int number, int frequency, int sequenceNumber){
+    this->number = number;
+    this->frequency = frequency;
+    this->sequenceNumber = sequenceNumber;
+  }
+};
+class Solution {
+public:
+
+struct valueCompare{
+  bool operator()(const Element &e1, const Element &e2){
+    if(e1.frequency != e2.frequency)
+      return e1.frequency < e2.frequency;
+    // if both elements have same frequency, return the element that was pushed later
+    return e1.sequenceNumber < e2.sequenceNumber;
+  } 
+};
+int sequenceNumber = 0;
+priority_queue<Element, vector<Element>, valueCompare> maxHeap;
+unordered_map<int, int> frequencyMap;
+
+  virtual void push(int num) {
+    frequencyMap[num]++;
+    maxHeap.push({num, frequencyMap[num], sequenceNumber++});
+  }
+
+  virtual int pop() {
+    int num = maxHeap.top().number;
+    maxHeap.pop();
+  // decrement the frequency or remove if it is the last element
+    if(frequencyMap[num] > 1){
+      frequencyMap[num]--;
+    }
+    else{
+      frequencyMap.erase(num);
+    }
+    return num;
+  }
+};
