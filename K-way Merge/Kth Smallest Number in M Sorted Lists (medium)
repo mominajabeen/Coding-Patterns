@@ -1,0 +1,41 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+
+struct valueCompare{
+  bool operator()(const pair<int, pair<int, int>> &x, const pair<int, pair<int, int>> &y){
+    return x.first > y.first;
+  }
+};
+
+  int findKthSmallest(const vector<vector<int>> &lists, int k) {
+    priority_queue<pair<int, pair<int, int>>,
+     vector<pair<int, pair<int, int>>>, valueCompare> minHeap;
+
+    for(int i = 0; i < lists.size(); i++){
+      if(!lists[i].empty()){
+        minHeap.push({lists[i][0], {i, 0}});
+      }
+    }
+    int result = 0;
+    while(!minHeap.empty() && k >= 0){
+      auto node = minHeap.top();
+      minHeap.pop();
+      k--;
+      result = node.first;
+      if(k == 0)
+        return node.first;
+      node.second.second++;
+      if(lists[node.second.first].size() > node.second.second){
+        node.first = lists[node.second.first][node.second.second];
+        minHeap.push(node);
+      }
+    }
+    return result;
+  }
+};
