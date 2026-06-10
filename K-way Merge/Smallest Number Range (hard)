@@ -1,0 +1,50 @@
+using namespace std;
+
+#include <iostream>
+#include <limits>
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+struct valueCompare{
+  bool operator()(const pair<int, pair<int, int>> &x, const pair<int, pair<int, int>> &y){
+    return x.first > y.first;
+  }
+};
+
+  vector<int> findSmallestRange(const vector<vector<int>> &lists) {
+    priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>,
+    valueCompare> minHeap;
+    int rangeStart = 0, rangeEnd = numeric_limits<int>::max(),
+    currentMaxNumber = numeric_limits<int>::min();
+
+    for(int i = 0; i < lists.size(); i++){
+      if(!lists[i].empty()){
+        minHeap.push(make_pair(lists[i][0], make_pair(i, 0)));
+        currentMaxNumber = max(currentMaxNumber, lists[i][0]);
+      }
+    }
+    // Take the smallest element from the heap,
+    // if it gives us smaller range, update the range
+    // if the array of the smallest element has more elements, insert the next element
+    while(minHeap.size() == lists.size()){
+      auto node = minHeap.top();
+      minHeap.pop();
+      if(rangeEnd - rangeStart > currentMaxNumber - node.first){
+        rangeEnd = currentMaxNumber;
+        rangeStart = node.first;
+      }
+      node.second.second++;
+      if(lists[node.second.first].size() > node.second.second){
+        node.first = lists[node.second.first][node.second.second];
+        minHeap.push(node); // insert the next element in the heap
+        currentMaxNumber = max(currentMaxNumber, node.first);
+      }
+    }
+    vector<int> result;
+    result.push_back(rangeStart);
+    result.push_back(rangeEnd);
+    return result;
+  }
+};
