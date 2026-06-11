@@ -1,0 +1,41 @@
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+struct sumCompare{
+  bool operator()(const pair<int, int> &x, const pair<int, int> &y){
+    return  x.first + x.second > y.first + y.second;
+  }
+};
+  vector<vector<int>> findKLargestPairs(const vector<int> &nums1,
+    const vector<int> &nums2, int k) {
+      priority_queue<pair<int, int>, vector<pair<int, int>>, sumCompare> minHeap;
+      
+      for(int i = 0; i < nums1.size() && i < k; i++){
+        for(int j = 0; j < nums2.size() && j < k; j++){
+          if(minHeap.size() < k){
+            minHeap.push(make_pair(nums1[i], nums2[j]));
+        }
+        else{
+          if(minHeap.top().first + minHeap.top().second > nums1[i] + nums2[j])
+            continue;
+          else{
+            minHeap.pop();
+            minHeap.push(make_pair(nums1[i], nums2[j]));
+          }
+        }
+      }
+      }
+    vector<vector<int>> result;
+    while(!minHeap.empty()){
+      auto vec = minHeap.top();
+      result.push_back(vector<int>{vec.first, vec.second});
+      minHeap.pop();
+    }
+    return result;
+    }   
+};
