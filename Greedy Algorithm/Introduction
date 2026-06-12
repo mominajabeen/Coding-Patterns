@@ -1,0 +1,5 @@
+A Greedy algorithm is used to solve problems in which the best choice is made at each step, and it finds a solution in a minimal step.
+
+This approach assumes that choosing a local optimum at each stage will lead to the determination of a global optimum.
+
+It's like making the most beneficial decision at every crossroad, hoping it leads to the ultimate destination efficiently.
