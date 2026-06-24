@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    // Method to determine if a string can be a palindrome by removing at most one character
+    bool isPalindromePossible(string s) {
+        int left = 0, right = s.size() - 1;
+
+        while (left < right){
+            if(s[left] != s[right]){
+                return (ispalindrom(s, left + 1, right) || ispalindrom(s, left, right - 1));
+            }
+            left++;
+            right--;
+        }
+        return true; 
+    }
+private:
+    bool ispalindrom(string s, int left, int right){
+        while(left < right){
+            if(s[left] != s[right])
+                return false;
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+};
+
