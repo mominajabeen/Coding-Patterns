@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    string largestPalindromic(string num) {
+        vector<int> freqCount(10, 0);
+        for(char c : num){
+            freqCount[c - '0']++;
+        }
+        string firstHalf = "";
+        for(int i = 9; i >= 0; i--){
+            if(i == 0 && firstHalf.empty())
+                break;
+            while(freqCount[i] > 1){
+                firstHalf += ('0' + i);
+                freqCount[i] -= 2;
+            }
+        }
+        string middle = "";
+        for(int i = 9; i >= 0; i--){
+            if(freqCount[i] > 0){
+                middle += ('0' + i);
+                break;
+            }
+        }
+        if(firstHalf.empty() && middle.empty())
+            return "0";
+        
+        string secondHalf = firstHalf;
+        reverse(secondHalf.begin(), secondHalf.end());
+        return firstHalf + middle + secondHalf;
+    }
+};
+
