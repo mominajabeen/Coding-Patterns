@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int minMoves(std::vector<int>& nums) {
+        int n = nums.size();
+        int minDist = 0, maxDist = 0;
+        int minElement = INT_MAX, maxElement = INT_MIN;
+        for(int i = 0; i < n; i++){
+            if(nums[i] < minElement){
+                minElement = nums[i];
+                minDist = i;
+            }
+            if(nums[i] > maxElement){
+                maxElement = nums[i];
+                maxDist = i;
+            }
+        }
+        int leftDist = max(minDist + 1, maxDist + 1);
+        int rightDist = max(n - minDist, n - maxDist);
+        int difSides = min(minDist + 1, n - minDist) + min(maxDist + 1, n - maxDist);
+
+        return min(leftDist, min(rightDist, difSides));
+    }
+};
+
