@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    int solveKnapsack(vector<int> &profits, vector<int> &weights, int capacity) {
+      vector<vector<int>> dp(profits.size(), vector<int> (capacity + 1, -1));
+      return knapSackRecursive(dp, profits, weights, capacity, 0);
+    }
+  private:
+    int knapSackRecursive(vector<vector<int>> &dp, const vector<int> &profits, 
+                          const vector<int> &weights, int capacity, int currentIndx){
+      //base check
+      if(capacity <= 0 || currentIndx >= profits.size()){
+        return 0;
+      }
+      //if we have already solved similar problem, return the result from dp
+      if(dp[currentIndx][capacity] != -1)
+        return dp[currentIndx][capacity];
+
+      // recursive call after choosing the element at the current index 
+      // if weght of the currentIndx exceeds the capacity, we should not procede it
+      int profit1 = 0;
+      if(weights[currentIndx] <= capacity){
+        profit1 = profits[currentIndx] + 
+                  knapSackRecursive(dp, profits, weights, 
+                                    capacity - weights[currentIndx], currentIndx + 1);
+      }
+      // recursive call after excluding the element at current index 
+      int profit2 = knapSackRecursive(dp, profits, weights, capacity, currentIndx + 1);
+      dp[currentIndx][capacity] = max(profit1, profit2);
+      return dp[currentIndx][capacity];
+
+    }
+  };
